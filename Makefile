@@ -4,7 +4,7 @@ LINKFLAGS := `llvm-config --ldflags --libs core jit native`
 BOOST := -I../../boost_1_48_0
 
 test: arithmetic.o main.o kaleidoscope.o codegenerator.o 
-	g++ $^ `llvm-config --ldflags --libs core jit native` -o test
+	g++ $^ `llvm-config --ldflags --libs core jit native` -ldl -o test
 
 arithmetic.o: arithmetic.cpp arithmetic_def.hpp arithmetic.hpp
 	g++ $(BOOST) -c $< 

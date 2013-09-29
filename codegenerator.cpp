@@ -18,10 +18,10 @@
 #include "llvm/PassManager.h"
 #include "llvm/Analysis/Verifier.h"
 #include "llvm/Analysis/Passes.h"
-#include "llvm/Target/TargetData.h"
+#include "llvm/DataLayout.h"
 #include "llvm/Transforms/Scalar.h"
-#include "llvm/Support/IRBuilder.h"
-#include "llvm/Target/TargetSelect.h"
+#include "llvm/IRBuilder.h"
+#include "llvm/Support/TargetSelect.h"
 
 inline llvm::Value * CgError(const std::string & msg, const std::string & name)
 { std::cout << "Error: " << msg << " \"" << name << "\"\n"; return 0; }
@@ -101,7 +101,7 @@ llvm::Value * ExprCodegen::operator()(const ast::Call   & call) const
         argVals.push_back(arg);
     }
 
-    return pimpl->builder.CreateCall(calleeF, argVals.begin(), argVals.end(), "calltmp");
+    return pimpl->builder.CreateCall(calleeF, argVals, "calltmp");
 }
 
 //////////////////////////////////////////////////////////
@@ -124,9 +124,9 @@ ProgCodegen::ProgCodegen(llvm::Module * mod):module(mod)
 // Prototype (declaration) generator
 llvm::Function * ProgCodegen::operator()(const ast::Prototype & proto) const
 {
-    std::vector<const llvm::Type*> doubles(proto.args.size(),llvm::Type::getDoubleTy(llvm::getGlobalContext()));
+    std::vector<llvm::Type*> doubles(proto.args.size(),llvm::Type::getDoubleTy(llvm::getGlobalContext()));
 
-    llvm::FunctionType * FT = llvm::FunctionType::get   (llvm::Type::getDoubleTy(llvm::getGlobalContext()),doubles, false);
+    llvm::FunctionType * FT = llvm::FunctionType::get   (llvm::Type::getDoubleTy(llvm::getGlobalContext()), llvm::ArrayRef<llvm::Type*>(doubles), false);
     llvm::Function     * F  = llvm::Function    ::Create(FT, llvm::Function::ExternalLinkage, proto.name, module);
 
     // No redefinitions or redeclarations
@@ -179,8 +179,8 @@ llvm::Function * ProgCodegen::operator()(const ast::Func & func)  const
 // It also evaluates the generated function
 llvm::Function * ProgCodegen::operator()(const ast::Expr      & expr)  const 
 {
-    std::vector<const llvm::Type*> doubles(0,llvm::Type::getDoubleTy(llvm::getGlobalContext()));
-    llvm::FunctionType * FT       = llvm::FunctionType::get   (llvm::Type::getDoubleTy(llvm::getGlobalContext()),doubles, false);
+    std::vector<llvm::Type*> doubles(0,llvm::Type::getDoubleTy(llvm::getGlobalContext()));
+    llvm::FunctionType * FT       = llvm::FunctionType::get   (llvm::Type::getDoubleTy(llvm::getGlobalContext()),llvm::ArrayRef<llvm::Type*>(doubles), false);
     llvm::Function     * funcVal  = llvm::Function    ::Create(FT, llvm::Function::ExternalLinkage,"", module);
     if (funcVal == 0) return 0;
 
