@@ -6,8 +6,8 @@
 //  GitHub: github.com/KKostya/SpiritKaleidoscope
 /////////////////////////////////////////////////////
 
-#ifndef _CODEGENERATOR_HPP_
-#define _CODEGENERATOR_HPP_
+#ifndef CODEGENERATOR_HPP
+#define CODEGENERATOR_HPP
 
 #include "Ast.hpp"
 

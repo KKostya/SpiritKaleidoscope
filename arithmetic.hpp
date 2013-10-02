@@ -6,8 +6,8 @@
 //  GitHub: github.com/KKostya/SpiritKaleidoscope
 /////////////////////////////////////////////////////
 
-#ifndef _ARITHMETIC_HPP_
-#define _ARITHMETIC_HPP_
+#ifndef ARITHMETIC_HPP
+#define ARITHMETIC_HPP
 
 #include <boost/spirit/include/qi.hpp>
 #include "Ast.hpp"

@@ -7,8 +7,8 @@
 /////////////////////////////////////////////////////
 
 
-#ifndef _AST_H_
-#define _AST_H_
+#ifndef AST_H
+#define AST_H
 #include <boost/config/warning_disable.hpp>
 #include <boost/fusion/include/adapt_struct.hpp>
 #include <boost/variant.hpp>

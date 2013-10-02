@@ -5,8 +5,8 @@
 //  GitHub: github.com/KKostya/SpiritKaleidoscope
 /////////////////////////////////////////////////////
 
-#ifndef _KALEIDOSCOPE_HPP__
-#define _KALEIDOSCOPE_HPP__
+#ifndef KALEIDOSCOPE_HPP
+#define KALEIDOSCOPE_HPP
 
 #include "Ast.hpp"
 #include "arithmetic.hpp"
